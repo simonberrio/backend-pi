@@ -1,0 +1,152 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ProyectoIntegrador\\MyApp.Api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F595070C-1D53-4837-97E4-85BDE021CBD5}|2Services\\Services.csproj|c:\\proyectointegrador\\myapp.api\\2services\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F595070C-1D53-4837-97E4-85BDE021CBD5}|2Services\\Services.csproj|solutionrelative:2services\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E6E75A3-7ECC-4DFC-9733-8BDC64819A61}|Database\\Repositories.csproj|c:\\proyectointegrador\\myapp.api\\database\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E6E75A3-7ECC-4DFC-9733-8BDC64819A61}|Database\\Repositories.csproj|solutionrelative:database\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFAC287-6ACB-409F-AF02-EBB95EEBAC0E}|MyApp.Api\\MyApp.Api.csproj|c:\\proyectointegrador\\myapp.api\\myapp.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFAC287-6ACB-409F-AF02-EBB95EEBAC0E}|MyApp.Api\\MyApp.Api.csproj|solutionrelative:myapp.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFAC287-6ACB-409F-AF02-EBB95EEBAC0E}|MyApp.Api\\MyApp.Api.csproj|c:\\proyectointegrador\\myapp.api\\myapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFAC287-6ACB-409F-AF02-EBB95EEBAC0E}|MyApp.Api\\MyApp.Api.csproj|solutionrelative:myapp.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E6E75A3-7ECC-4DFC-9733-8BDC64819A61}|Database\\Repositories.csproj|c:\\proyectointegrador\\myapp.api\\database\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E6E75A3-7ECC-4DFC-9733-8BDC64819A61}|Database\\Repositories.csproj|solutionrelative:database\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E04DBA55-C093-407D-A2BA-2275B87D8425}|Dtos\\Dtos.csproj|c:\\proyectointegrador\\myapp.api\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E04DBA55-C093-407D-A2BA-2275B87D8425}|Dtos\\Dtos.csproj|solutionrelative:dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Database\\Models\\User.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Models\\User.cs",
+              "RelativeToolTip": "Database\\Models\\User.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAewBgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T01:01:49.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\Dtos\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "Dtos\\RegisterDto.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\Dtos\\RegisterDto.cs",
+              "RelativeToolTip": "Dtos\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T00:59:55.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Database\\Repositories\\UserRepository.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Database\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwBIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T00:59:24.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\MyApp.Api\\Program.cs",
+              "RelativeDocumentMoniker": "MyApp.Api\\Program.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\MyApp.Api\\Program.cs",
+              "RelativeToolTip": "MyApp.Api\\Program.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAADkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T00:57:18.268Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\MyApp.Api\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "MyApp.Api\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\MyApp.Api\\Controllers\\UserController.cs",
+              "RelativeToolTip": "MyApp.Api\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T00:52:39.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\ProyectoIntegrador\\MyApp.Api\\2Services\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "2Services\\Services\\UserService.cs",
+              "ToolTip": "C:\\ProyectoIntegrador\\MyApp.Api\\2Services\\Services\\UserService.cs",
+              "RelativeToolTip": "2Services\\Services\\UserService.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAcwE4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T00:50:57.232Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1245,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

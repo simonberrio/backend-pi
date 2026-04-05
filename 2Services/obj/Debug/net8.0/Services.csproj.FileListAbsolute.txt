@@ -1,0 +1,17 @@
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Services.deps.json
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Services.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Services.pdb
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Repositories.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Repositories.pdb
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.csproj.AssemblyReference.cache
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.AssemblyInfoInputs.cache
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.AssemblyInfo.cs
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.csproj.CoreCompileInputs.cache
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.csproj.Up2Date
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\refint\Services.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\Services.pdb
+C:\ProyectoIntegrador\MyApp.Api\2Services\obj\Debug\net8.0\ref\Services.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Dtos.dll
+C:\ProyectoIntegrador\MyApp.Api\2Services\bin\Debug\net8.0\Dtos.pdb
