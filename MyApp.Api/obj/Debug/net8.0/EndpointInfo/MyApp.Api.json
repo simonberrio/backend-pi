@@ -1,11 +1,51 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "MyApp.Api",
-    "version": "1.0"
+    "title": "MyApp API",
+    "version": "v1"
   },
   "paths": {
-    "/login": {
+    "/ChangePassword": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "CurrentPassword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NewPassword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/GetUserAuthenticated": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Login": {
       "post": {
         "tags": [
           "User"
@@ -33,7 +73,7 @@
         }
       }
     },
-    "/register": {
+    "/Register": {
       "post": {
         "tags": [
           "User"
@@ -90,5 +130,19 @@
       }
     }
   },
-  "components": { }
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Ingresa el token así: Bearer {tu token}",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

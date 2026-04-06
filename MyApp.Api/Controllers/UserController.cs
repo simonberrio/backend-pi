@@ -1,5 +1,7 @@
-﻿using DTOs;
+﻿using Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repositories.Models;
 using Services.IService;
 
 namespace MyApp.Api.Controllers
@@ -8,7 +10,23 @@ namespace MyApp.Api.Controllers
     {
         private readonly IUserService _userService = userService;
 
-        [HttpPost("login")]
+        [HttpPost("ChangePassword")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto model)
+        {
+            await _userService.ChangePasswordAsync(model);
+            return Ok(new { message = "Contraseña cambiada correctamente" });
+        }
+
+        [HttpGet("GetUserAuthenticated")]
+        [Authorize]
+        public async Task<IActionResult> GetUserAuthenticated()
+        {
+            User userAuthenticated = await _userService.GetUserAuthenticatedAsync();
+            return Ok(new { message = $"UserName= {userAuthenticated.UserName}" });
+        }
+
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
             var token = await _userService.LoginAsync(model.Email, model.Password);
@@ -19,7 +37,7 @@ namespace MyApp.Api.Controllers
             return Ok(new { token });
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto model)
         {
             var result = await _userService.RegisterAsync(model);

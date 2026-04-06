@@ -1,8 +1,39 @@
 [
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
+    "Method": "ChangePassword",
+    "RelativePath": "ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "CurrentPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "NewPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.UserController",
+    "Method": "GetUserAuthenticated",
+    "RelativePath": "GetUserAuthenticated",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "Login",
-    "RelativePath": "login",
+    "RelativePath": "Login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -23,7 +54,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "Register",
-    "RelativePath": "register",
+    "RelativePath": "Register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

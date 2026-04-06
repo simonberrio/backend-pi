@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="2Services/Services.csproj" />
-  <Project Path="Database/Repositories.csproj" />
   <Project Path="Dtos/Dtos.csproj" />
   <Project Path="MyApp.Api/MyApp.Api.csproj" />
+  <Project Path="Repositories/Repositories.csproj" />
+  <Project Path="Services/Services.csproj" />
 </Solution>

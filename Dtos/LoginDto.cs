@@ -1,4 +1,4 @@
-﻿namespace DTOs
+﻿namespace Dtos
 {
     public class LoginDto
     {

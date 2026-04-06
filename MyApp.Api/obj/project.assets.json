@@ -3100,13 +3100,13 @@
     },
     "Repositories/1.0.0": {
       "type": "project",
-      "path": "../Database/Repositories.csproj",
-      "msbuildProject": "../Database/Repositories.csproj"
+      "path": "../Repositories/Repositories.csproj",
+      "msbuildProject": "../Repositories/Repositories.csproj"
     },
     "Services/1.0.0": {
       "type": "project",
-      "path": "../2Services/Services.csproj",
-      "msbuildProject": "../2Services/Services.csproj"
+      "path": "../Services/Services.csproj",
+      "msbuildProject": "../Services/Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3152,14 +3152,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\ProyectoIntegrador\\MyApp.Api\\2Services\\Services.csproj": {
-              "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\2Services\\Services.csproj"
-            },
-            "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Repositories.csproj": {
-              "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\Database\\Repositories.csproj"
-            },
             "C:\\ProyectoIntegrador\\MyApp.Api\\Dtos\\Dtos.csproj": {
               "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\Dtos\\Dtos.csproj"
+            },
+            "C:\\ProyectoIntegrador\\MyApp.Api\\Repositories\\Repositories.csproj": {
+              "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\Repositories\\Repositories.csproj"
+            },
+            "C:\\ProyectoIntegrador\\MyApp.Api\\Services\\Services.csproj": {
+              "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\Services\\Services.csproj"
             }
           }
         }
