@@ -31,7 +31,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\ProyectoIntegrador\\MyApp.Api\\Repositories\\Repositories.csproj": {
+                "projectPath": "C:\\ProyectoIntegrador\\MyApp.Api\\Repositories\\Repositories.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -304,6 +308,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

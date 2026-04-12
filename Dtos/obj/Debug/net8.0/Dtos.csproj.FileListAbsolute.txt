@@ -1,11 +1,15 @@
 C:\ProyectoIntegrador\MyApp.Api\Dtos\bin\Debug\net8.0\Dtos.deps.json
 C:\ProyectoIntegrador\MyApp.Api\Dtos\bin\Debug\net8.0\Dtos.dll
 C:\ProyectoIntegrador\MyApp.Api\Dtos\bin\Debug\net8.0\Dtos.pdb
+C:\ProyectoIntegrador\MyApp.Api\Dtos\bin\Debug\net8.0\Repositories.dll
+C:\ProyectoIntegrador\MyApp.Api\Dtos\bin\Debug\net8.0\Repositories.pdb
+C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.csproj.AssemblyReference.cache
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.GeneratedMSBuildEditorConfig.editorconfig
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfoInputs.cache
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.AssemblyInfo.cs
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.csproj.CoreCompileInputs.cache
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.sourcelink.json
+C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.csproj.Up2Date
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.dll
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\refint\Dtos.dll
 C:\ProyectoIntegrador\MyApp.Api\Dtos\obj\Debug\net8.0\Dtos.pdb

@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "MyApp.Api.Controllers.EventController",
+    "Method": "Create",
+    "RelativePath": "api/Event",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Dtos.EventDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "ChangePassword",
     "RelativePath": "ChangePassword",

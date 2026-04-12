@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MyApp.Api;
 using Repositories;
 using Repositories.IRepositories;
 using Repositories.Models;
@@ -88,9 +89,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-//Interfaces
+//Interfaces (Repositorios y Servicios)
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+//Mapeos
+builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
 //Acceso para GetUserAunthenticated en UserService
 builder.Services.AddHttpContextAccessor();

@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Repositories.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories.Models
+namespace Dtos
 {
-    public class Event
+    public class EventDto
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -18,21 +17,19 @@ namespace Repositories.Models
 
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+
         public string Address { get; set; }
 
         public int MaxParticipants { get; set; }
         public bool IsPublic { get; set; }
 
-        public string? ImageUrl { get; set; }
-        public decimal? Price { get; set; }
-
         public CategoryEnums Category { get; set; }
 
-        public string CreatedByUserId { get; set; }
-        public User CreatedByUser { get; set; }
+        public decimal? Price { get; set; } 
 
-        public DateTime CreatedDate { get; set; }
+        // Imagen por ahora como string (luego hacemos upload real)
+        public string? ImageUrl { get; set; }
 
-        public ICollection<EventParticipant> Participants { get; set; }
+        public string CreatedByUserName { get; set; }
     }
 }
