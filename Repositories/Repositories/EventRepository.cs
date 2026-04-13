@@ -1,4 +1,5 @@
-﻿using Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories;
 using Repositories.IRepositories;
 using Repositories.Models;
 using System;
@@ -18,6 +19,28 @@ namespace Repositories.Repositories
             _context.Events.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task DeleteAsync(Event entity)
+        {
+            _context.Events.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Event?> GetByIdAsync(int id)
+        {
+            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public IQueryable<Event> GetQueryable()
+        {
+            return _context.Events.AsQueryable();
+        }
+
+        public async Task UpdateAsync(Event entity)
+        {
+            _context.Events.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

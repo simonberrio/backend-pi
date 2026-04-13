@@ -10,5 +10,9 @@ namespace Repositories.IRepositories
     public interface IEventRepository
     {
         Task<Event> CreateAsync(Event entity);
+        Task DeleteAsync(Event entity);
+        Task<Event?> GetByIdAsync(int id);
+        IQueryable<Event> GetQueryable();
+        Task UpdateAsync(Event entity);
     }
 }

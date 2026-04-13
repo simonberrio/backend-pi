@@ -16,8 +16,8 @@ namespace Repositories.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public string Address { get; set; }
 
         public int MaxParticipants { get; set; }
@@ -32,6 +32,7 @@ namespace Repositories.Models
         public User CreatedByUser { get; set; }
 
         public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
         public ICollection<EventParticipant> Participants { get; set; }
     }

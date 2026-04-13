@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Dtos
 {
-    public class EventDto
+    public class EventResponseDto
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -25,10 +26,8 @@ namespace Dtos
         public bool IsPublic { get; set; }
 
         public CategoryEnums Category { get; set; }
+        public decimal? Price { get; set; }
 
-        public decimal? Price { get; set; } 
-
-        // Imagen por ahora como string (luego hacemos upload real)
-        public string? ImageUrl { get; set; }
+        public string CreatedByUserName { get; set; }
     }
 }

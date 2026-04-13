@@ -10,6 +10,9 @@ namespace Services.IService
 {
     public interface IEventService
     {
-        Task<EventDto> CreateEventAsync(EventDto model);
+        Task<EventResponseDto> CreateEventAsync(EventDto model);
+        Task DeleteEventAsync(int id);
+        Task<List<EventResponseDto>> GetEventsAsync(EventFilterDto filter);
+        Task<EventResponseDto> UpdateEventAsync(EventDto model);
     }
 }
