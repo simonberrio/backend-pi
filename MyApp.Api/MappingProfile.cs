@@ -10,7 +10,9 @@ namespace MyApp.Api
         {
             CreateMap<EventDto, Event>();
 
-            CreateMap<Event, EventResponseDto>().ForMember(dest => dest.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser.UserName));
+            CreateMap<Event, EventResponseDto>();
+
+            CreateMap<EventParticipant, EventParticipantDto>();
         }
     }
 }

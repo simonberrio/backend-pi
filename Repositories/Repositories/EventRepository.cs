@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repositories;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Repositories.IRepositories;
 using Repositories.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories.Repositories
 {
@@ -16,20 +10,16 @@ namespace Repositories.Repositories
 
         public async Task<Event> CreateAsync(Event entity)
         {
-            _context.Events.Add(entity);
+            EntityEntry<Event> response = _context.Events.Add(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return response.Entity;
         }
 
-        public async Task DeleteAsync(Event entity)
+        public async Task<Event> DeleteAsync(Event entity)
         {
-            _context.Events.Remove(entity);
+            EntityEntry<Event> response = _context.Events.Remove(entity);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<Event?> GetByIdAsync(int id)
-        {
-            return await _context.Events.FirstOrDefaultAsync(e => e.Id == id);
+            return response.Entity;
         }
 
         public IQueryable<Event> GetQueryable()
@@ -37,10 +27,11 @@ namespace Repositories.Repositories
             return _context.Events.AsQueryable();
         }
 
-        public async Task UpdateAsync(Event entity)
+        public async Task<Event> UpdateAsync(Event entity)
         {
-            _context.Events.Update(entity);
+            EntityEntry<Event> response = _context.Events.Update(entity);
             await _context.SaveChangesAsync();
+            return response.Entity;
         }
     }
 }

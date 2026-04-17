@@ -90,6 +90,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Interfaces (Repositorios y Servicios)
+builder.Services.AddScoped<IEventParticipantRepository, EventParticipantRepository>();
+builder.Services.AddScoped<IEventParticipantService, EventParticipantService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IUserService, UserService>();

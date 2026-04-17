@@ -15,7 +15,6 @@
         public ParticipantStatusEnums Status { get; set; }
 
         public DateTime? ConfirmationDate { get; set; }
-        public DateTime? CheckInDate { get; set; }
 
         public string? CancellationReason { get; set; }
     }

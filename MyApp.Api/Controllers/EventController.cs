@@ -11,34 +11,34 @@ namespace MyApp.Api.Controllers
     {
         private readonly IEventService _eventService = eventService;
 
-        [HttpPost]
+        [HttpPost("Create")]
         [Authorize]
         public async Task<IActionResult> Create(EventDto model)
         {
-            var result = await _eventService.CreateEventAsync(model);
+            EventResponseDto result = await _eventService.CreateEventAsync(model);
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            await _eventService.DeleteEventAsync(id);
-            return Ok(new { message = "Evento eliminado correctamente" });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetEvents([FromQuery] EventFilterDto filter)
-        {
-            var result = await _eventService.GetEventsAsync(filter);
+            EventResponseDto result = await _eventService.DeleteEventAsync(id);
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpGet("GetEvents")]
+        public async Task<IActionResult> GetEvents([FromQuery] EventFilterDto filter)
+        {
+            List<EventResponseDto> result = await _eventService.GetEventsAsync(filter);
+            return Ok(result);
+        }
+
+        [HttpPut("Update")]
         [Authorize]
         public async Task<IActionResult> Update(EventDto model)
         {
-            var result = await _eventService.UpdateEventAsync(model);
+            EventResponseDto result = await _eventService.UpdateEventAsync(model);
             return Ok(result);
         }
     }

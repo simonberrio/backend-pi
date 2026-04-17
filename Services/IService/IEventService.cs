@@ -11,7 +11,7 @@ namespace Services.IService
     public interface IEventService
     {
         Task<EventResponseDto> CreateEventAsync(EventDto model);
-        Task DeleteEventAsync(int id);
+        Task<EventResponseDto> DeleteEventAsync(int id);
         Task<List<EventResponseDto>> GetEventsAsync(EventFilterDto filter);
         Task<EventResponseDto> UpdateEventAsync(EventDto model);
     }
