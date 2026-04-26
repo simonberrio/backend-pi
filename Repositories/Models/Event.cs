@@ -28,8 +28,9 @@ namespace Repositories.Models
 
         public CategoryEnums Category { get; set; }
 
-        public string CreatedByUserId { get; set; }
-        public User CreatedByUser { get; set; }
+        public string? CreatedByUserId { get; set; }
+        public User? CreatedByUser { get; set; }
+        public string CreatedByUserName { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }

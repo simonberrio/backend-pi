@@ -32,6 +32,7 @@ namespace Services.Services
             Event entity = _mapper.Map<Event>(model);
 
             entity.CreatedByUserId = user.Id;
+            entity.CreatedByUserName = user.UserName;
             entity.CreatedDate = DateTime.UtcNow;
 
             Event createdEvent = await _eventRepository.CreateAsync(entity);

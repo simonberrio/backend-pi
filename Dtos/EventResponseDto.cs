@@ -28,8 +28,9 @@ namespace Dtos
         public CategoryEnums Category { get; set; }
         public decimal? Price { get; set; }
 
-        public string CreatedByUserId { get; set; }
+        public string? CreatedByUserId { get; set; }
 
-        public UserResponseDto CreatedByUser { get; set; }
+        public UserResponseDto? CreatedByUser { get; set; }
+        public string CreatedByUserName { get; set; }
     }
 }
