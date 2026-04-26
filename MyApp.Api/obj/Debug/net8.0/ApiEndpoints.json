@@ -79,6 +79,16 @@
   },
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
+    "Method": "GetEventsIAmRegistered",
+    "RelativePath": "api/Event/GetEventsIAmRegistered",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "Update",
     "RelativePath": "api/Event/Update",
     "HttpMethod": "PUT",
@@ -89,6 +99,32 @@
         "Name": "model",
         "Type": "Dtos.EventDto",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "ApproveOrRejectParticipant",
+    "RelativePath": "ApproveOrRejectParticipant",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Approve",
+        "Type": "System.Boolean",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -145,7 +181,23 @@
     "Parameters": [
       {
         "Name": "eventId",
-        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "GetPendingRequestsAsync",
+    "RelativePath": "GetPendingRequestsAsync",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

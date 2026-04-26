@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories.Models
 {
     public class User : IdentityUser
     {
+        public string UserName { get; set; }
+        public string Email { get; set; }
         [Required]
         [MaxLength(150)]
         [Column(TypeName = "varchar(150)")]
@@ -22,5 +19,7 @@ namespace Repositories.Models
         [Required]
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
+
+        public ICollection<Event> Events { get; set; }
     }
 }

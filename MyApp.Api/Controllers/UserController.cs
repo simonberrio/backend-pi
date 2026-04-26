@@ -6,7 +6,7 @@ using Services.IService;
 
 namespace MyApp.Api.Controllers
 {
-    public class UserController(IUserService userService) : Controller
+    public class UserController(IUserService userService) : ControllerBase
     {
         private readonly IUserService _userService = userService;
 

@@ -26,9 +26,8 @@ namespace Dtos
 
         public CategoryEnums Category { get; set; }
 
-        public decimal? Price { get; set; } 
+        public decimal? Price { get; set; }
 
-        // Imagen por ahora como string (luego hacemos upload real)
         public string? ImageUrl { get; set; }
     }
 }

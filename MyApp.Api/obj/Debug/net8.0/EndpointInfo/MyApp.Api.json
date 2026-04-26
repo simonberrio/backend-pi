@@ -127,6 +127,18 @@
         }
       }
     },
+    "/api/Event/GetEventsIAmRegistered": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Event/Update": {
       "put": {
         "tags": [
@@ -151,6 +163,42 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/ApproveOrRejectParticipant": {
+      "put": {
+        "tags": [
+          "EventParticipant"
+        ],
+        "parameters": [
+          {
+            "name": "EventId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Approve",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -188,6 +236,28 @@
       }
     },
     "/GetParticipantsByEventId": {
+      "get": {
+        "tags": [
+          "EventParticipant"
+        ],
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/GetPendingRequestsAsync": {
       "get": {
         "tags": [
           "EventParticipant"

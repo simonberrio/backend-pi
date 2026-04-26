@@ -67,29 +67,25 @@ namespace Services.Services
 
         public async Task<User> GetUserAuthenticatedAsync()
         {
-            var userClaims = _httpContextAccessor.HttpContext?.User;
+            ClaimsPrincipal? userClaims = _httpContextAccessor.HttpContext?.User;
 
             if (userClaims == null || !userClaims.Identity.IsAuthenticated)
                 throw new Exception("Usuario no autenticado");
 
-            var userId = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string? userId = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
-                throw new Exception("Token inválido");
+                throw new Exception("Token no válido");
 
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-                throw new Exception("Usuario no encontrado");
-
+            User? user = await _userManager.FindByIdAsync(userId) ?? throw new Exception("Usuario no encontrado");
             return user;
         }
 
         public async Task<string?> LoginAsync(string email, string password)
         {
-            var user = await _userManager.FindByEmailAsync(email) ??
+            User user = await _userManager.FindByEmailAsync(email) ??
                 throw new Exception("Credenciales no válidas");
-            var valid = await _userManager.CheckPasswordAsync(user, password);
+            bool valid = await _userManager.CheckPasswordAsync(user, password);
 
             if (!valid)
                 throw new Exception("Credenciales no válidas");
@@ -99,16 +95,15 @@ namespace Services.Services
 
         public async Task<(bool Success, string Message)> RegisterAsync(RegisterDto model)
         {
-            // Validación básica
             if (model.Password != model.ConfirmPassword)
                 return (false, "Las contraseñas no coinciden");
 
-            var existingUser = await _userRepository.GetByEmailAsync(model.Email);
+            User? existingUser = await _userRepository.GetByEmailAsync(model.Email);
 
             if (existingUser != null)
                 return (false, "El usuario ya existe");
 
-            var user = new User
+            User user = new User
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -118,7 +113,7 @@ namespace Services.Services
                 UpdateDate = DateTime.UtcNow
             };
 
-            var result = await _userRepository.CreateUserAsync(user, model.Password);
+            IdentityResult result = await _userRepository.CreateUserAsync(user, model.Password);
 
             if (!result.Succeeded)
             {

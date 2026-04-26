@@ -12,7 +12,9 @@ namespace MyApp.Api
 
             CreateMap<Event, EventResponseDto>();
 
-            CreateMap<EventParticipant, EventParticipantDto>();
+            CreateMap<EventParticipant, EventParticipantDto>(); 
+
+            CreateMap<User, UserResponseDto>();
         }
     }
 }

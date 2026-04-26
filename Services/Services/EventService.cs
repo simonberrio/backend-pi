@@ -3,13 +3,18 @@ using Dtos;
 using Microsoft.EntityFrameworkCore;
 using Repositories.IRepositories;
 using Repositories.Models;
+using Repositories.Repositories;
 using Services.IService;
 
 namespace Services.Services
 {
-    public class EventService(IEventRepository eventRepository, IMapper mapper, IUserService userService) : IEventService
+    public class EventService(IEventRepository eventRepository,
+        IEventParticipantRepository eventParticipantRepository,
+        IMapper mapper,
+        IUserService userService) : IEventService
     {
         private readonly IEventRepository _eventRepository = eventRepository;
+        private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
         private readonly IMapper _mapper = mapper;
         private readonly IUserService _userService = userService;
 
@@ -32,7 +37,6 @@ namespace Services.Services
             Event createdEvent = await _eventRepository.CreateAsync(entity);
 
             EventResponseDto response = _mapper.Map<EventResponseDto>(createdEvent);
-            response.CreatedByUserName = $"{user.UserName}";
 
             return response;
         }
@@ -86,24 +90,24 @@ namespace Services.Services
             // Filtro por nombre
             if (!string.IsNullOrEmpty(filter.Search))
             {
-                query = query.Where(e => e.Name.ToLower().Contains(filter.Search.ToLower()));
+                query = query.Where(x => x.Name.ToLower().Contains(filter.Search.ToLower()));
             }
 
             // Filtro por categoría
             if (filter.Category.HasValue)
             {
-                query = query.Where(e => e.Category == filter.Category.Value);
+                query = query.Where(x => x.Category == filter.Category.Value);
             }
 
             // Filtro por fecha
             if (filter.StartDate.HasValue)
             {
-                query = query.Where(e => e.StartDate >= filter.StartDate.Value);
+                query = query.Where(x => x.StartDate >= filter.StartDate.Value);
             }
 
             if (filter.EndDate.HasValue)
             {
-                query = query.Where(e => e.EndDate <= filter.EndDate.Value);
+                query = query.Where(x => x.EndDate <= filter.EndDate.Value);
             }
 
             // Filtro por distancia
@@ -113,29 +117,24 @@ namespace Services.Services
                 var lng = filter.Longitude.Value;
                 var radius = filter.RadiusInKm ?? 5;
 
-                query = query.Where(e =>
-                    GetDistanceKm(lat, lng, e.Latitude, e.Longitude) <= radius
+                query = query.Where(x =>
+                    GetDistanceKm(lat, lng, x.Latitude, x.Longitude) <= radius
                 );
             }
 
-            List<EventResponseDto> responseDtos = await query.Select(x => new EventResponseDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
-                Latitude = x.Latitude,
-                Longitude = x.Longitude,
-                Address = x.Address,
-                MaxParticipants = x.MaxParticipants,
-                IsPublic = x.IsPublic,
-                Category = x.Category,
-                Price = x.Price,
-                CreatedByUserName = x.CreatedByUser.UserName
-            }).ToListAsync();
+            List<EventResponseDto> responseDtos = _mapper.Map<List<EventResponseDto>>(await query.Include(x => x.CreatedByUser).ToListAsync());
 
             return responseDtos;
+        }
+
+        public async Task<List<EventResponseDto>> GetEventsIAmRegistered()
+        {
+            User user = await _userService.GetUserAuthenticatedAsync();
+
+            List<EventParticipant> participants = await _eventParticipantRepository.GetQueryable().Where(x => x.UserId == user.Id).Include(x => x.Event)
+                .ThenInclude(x => x.CreatedByUser).ToListAsync();
+
+            return _mapper.Map<List<EventResponseDto>>(participants.Select(x => x.Event).ToList());
         }
 
         public async Task<EventResponseDto> UpdateEventAsync(EventDto model)

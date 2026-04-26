@@ -9,6 +9,14 @@ namespace MyApp.Api.Controllers
     {
         private readonly IEventParticipantService _service = service;
 
+        [HttpPut("ApproveOrRejectParticipant")]
+        [Authorize]
+        public async Task<IActionResult> ApproveOrRejectParticipant(ManageParticipantDto manageParticipantDto)
+        {
+            EventParticipantDto result = await _service.ApproveOrRejectParticipant(manageParticipantDto);
+            return Ok(result);
+        }
+
         [HttpPut("CancelRegistration")]
         [Authorize]
         public async Task<IActionResult> CancelRegistrationAsync(RegistrationDto registrationDto)
@@ -19,9 +27,17 @@ namespace MyApp.Api.Controllers
 
         [HttpGet("GetParticipantsByEventId")]
         [Authorize]
-        public async Task<IActionResult> GetParticipantsByEventIdAsync([FromQuery] int? eventId)
+        public async Task<IActionResult> GetParticipantsByEventIdAsync([FromQuery] int eventId)
         {
             List<EventParticipantDto> result = await _service.GetParticipantsByEventIdAsync(eventId);
+            return Ok(result);
+        }
+
+        [HttpGet("GetPendingRequestsAsync")]
+        [Authorize]
+        public async Task<IActionResult> GetPendingRequestsAsync([FromQuery] int eventId)
+        {
+            List<EventParticipantDto> result = await _service.GetPendingRequestsAsync(eventId);
             return Ok(result);
         }
 

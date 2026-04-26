@@ -11,7 +11,6 @@ namespace Repositories.Models
         Pending,
         Approved,
         Rejected,
-        Cancelled,
-        Attended
+        Cancelled
     }
 }

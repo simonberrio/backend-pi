@@ -14,6 +14,69 @@ namespace Services.Services
         private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
         private readonly IUserService _userService = userService;
 
+        public async Task<EventParticipantDto> ApproveOrRejectParticipant(ManageParticipantDto model)
+        {
+            User currentUser = await _userService.GetUserAuthenticatedAsync();
+
+            EventParticipant participant = await _eventParticipantRepository.GetQueryable().Where(x => x.UserId == model.UserId && x.EventId == model.EventId)
+                .Include(x => x.Event).FirstOrDefaultAsync()
+                ?? throw new Exception("Error al buscar la persona en este evento.");
+
+            //Solo creador puede gestionar
+            if (participant.Event.CreatedByUserId != currentUser.Id)
+                throw new Exception("No tienes permisos para gestionar este evento");
+
+            //Solo eventos privados
+            if (participant.Event.IsPublic)
+                throw new Exception("Este evento no requiere aprobación");
+
+            //Solo estado Pending
+            if (participant.Status != ParticipantStatusEnums.Pending)
+                throw new Exception("Esta solicitud ya no está pendiente");
+
+            if (model.Approve)
+            {
+                //Validar cupos
+                int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == participant.EventId &&
+                    x.Status == ParticipantStatusEnums.Approved).CountAsync();
+
+                if (count >= participant.Event.MaxParticipants)
+                    throw new Exception("El evento ya está lleno");
+
+                participant.Status = ParticipantStatusEnums.Approved;
+                participant.ConfirmationDate = DateTime.UtcNow;
+            }
+            else
+            {
+                participant.Status = ParticipantStatusEnums.Rejected;
+            }
+
+            EventParticipant response = await _eventParticipantRepository.UpdateAsync(participant);
+            return new EventParticipantDto
+            {
+                Id = response.Id,
+                UserId = response.UserId,
+                UserName = response.User.UserName,
+                UserFirstName = response.User.FirstName,
+                UserLastName = response.User.LastName,
+                EventId = response.EventId,
+                Event = new EventResponseDto
+                {
+                    Id = response.Event.Id,
+                    Name = response.Event.Name,
+                    Description = response.Event.Description,
+                    StartDate = response.Event.StartDate,
+                    EndDate = response.Event.EndDate,
+                    MaxParticipants = response.Event.MaxParticipants,
+                    IsPublic = response.Event.IsPublic
+                },
+                RegistrationDate = response.RegistrationDate,
+                Status = response.Status,
+                ConfirmationDate = response.ConfirmationDate,
+                CancellationReason = response.CancellationReason
+            };
+        }
+
         public async Task<EventParticipantDto> CancelRegistrationAsync(RegistrationDto registrationDto)
         {
             User user = await _userService.GetUserAuthenticatedAsync();
@@ -51,11 +114,12 @@ namespace Services.Services
             };
         }
 
-        public async Task<List<EventParticipantDto>> GetParticipantsByEventIdAsync(int? eventId)
+        public async Task<List<EventParticipantDto>> GetParticipantsByEventIdAsync(int eventId)
         {
             List<EventParticipantDto> participants = await _eventParticipantRepository.GetQueryable()
                 .Where(x => x.EventId == eventId && x.Status == ParticipantStatusEnums.Approved)
-                .Select(x => new EventParticipantDto {
+                .Select(x => new EventParticipantDto
+                {
                     Id = x.Id,
                     UserId = x.UserId,
                     UserName = x.User.UserName,
@@ -81,6 +145,42 @@ namespace Services.Services
             return participants;
         }
 
+        public async Task<List<EventParticipantDto>> GetPendingRequestsAsync(int eventId)
+        {
+            User currentUser = await _userService.GetUserAuthenticatedAsync();
+
+            Event evento = await _eventRepository.GetQueryable().Where(x => x.Id == eventId).FirstOrDefaultAsync()
+                ?? throw new Exception("Evento no encontrado");
+
+            if (evento.CreatedByUserId != currentUser.Id)
+                throw new Exception("No tienes permisos para gestionar este evento");
+
+            return await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == eventId && x.Status == ParticipantStatusEnums.Pending)
+                .Select(x => new EventParticipantDto
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    UserName = x.User.UserName,
+                    UserFirstName = x.User.FirstName,
+                    UserLastName = x.User.LastName,
+                    EventId = x.EventId,
+                    Event = new EventResponseDto
+                    {
+                        Id = x.Event.Id,
+                        Name = x.Event.Name,
+                        Description = x.Event.Description,
+                        StartDate = x.Event.StartDate,
+                        EndDate = x.Event.EndDate,
+                        MaxParticipants = x.Event.MaxParticipants,
+                        IsPublic = x.Event.IsPublic
+                    },
+                    RegistrationDate = x.RegistrationDate,
+                    Status = x.Status,
+                    ConfirmationDate = x.ConfirmationDate,
+                    CancellationReason = x.CancellationReason
+                }).ToListAsync();
+        }
+
         public async Task<EventParticipantDto> RegisterToEventAsync(RegistrationDto registrationDto)
         {
             User user = await _userService.GetUserAuthenticatedAsync();
@@ -88,22 +188,22 @@ namespace Services.Services
             Event evento = await _eventRepository.GetQueryable().Where(x => x.Id == registrationDto.EventId).FirstOrDefaultAsync()
                 ?? throw new Exception("Evento no encontrado");
 
-            // No puede registrarse a su propio evento
+            //No puede registrarse a su propio evento
             if (evento.CreatedByUserId == user.Id)
                 throw new Exception("No puedes registrarte a tu propio evento");
 
-            // Evento pasado
+            //Evento pasado
             if (evento.EndDate < DateTime.UtcNow)
                 throw new Exception("El evento ya finalizó");
 
-            // Ya existe registro
+            //Ya existe registro
             EventParticipant? existing = await _eventParticipantRepository.GetQueryable()
                 .Where(x => x.UserId == user.Id && x.EventId == evento.Id).FirstOrDefaultAsync();
 
             if (existing != null)
                 throw new Exception("Ya estás registrado en este evento");
 
-            // Validar cupos (solo aprobados)
+            //Validar cupos (solo aprobados)
             int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == evento.Id && x.Status == ParticipantStatusEnums.Approved)
                 .CountAsync();
 

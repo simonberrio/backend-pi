@@ -34,6 +34,14 @@ namespace MyApp.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetEventsIAmRegistered")]
+        [Authorize]
+        public async Task<IActionResult> GetEventsIAmRegistered()
+        {
+            List<EventResponseDto> result = await _eventService.GetEventsIAmRegistered();
+            return Ok(result);
+        }
+
         [HttpPut("Update")]
         [Authorize]
         public async Task<IActionResult> Update(EventDto model)
