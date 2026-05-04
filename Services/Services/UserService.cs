@@ -14,11 +14,13 @@ namespace Services.Services
 {
     public class UserService(IConfiguration config,
         IHttpContextAccessor httpContextAccessor,
+        IImageService imageService,
         UserManager<User> userManager,
         IUserRepository userRepository) : IUserService
     {
         private readonly IConfiguration _config = config;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+        private readonly IImageService _imageService = imageService;
         private readonly UserManager<User> _userManager = userManager;
         private readonly IUserRepository _userRepository = userRepository;
 
@@ -63,6 +65,19 @@ namespace Services.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<UserResponseDto> GetMyProfileAsync()
+        {
+            User user = await GetUserAuthenticatedAsync();
+            return new UserResponseDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl
+            };
         }
 
         public async Task<User> GetUserAuthenticatedAsync()
@@ -122,6 +137,27 @@ namespace Services.Services
             }
 
             return (true, "Usuario registrado correctamente");
+        }
+
+        public async Task<UserResponseDto> UploadImageProfileAsync(IFormFile formFile)
+        {
+            User user = await GetUserAuthenticatedAsync();
+
+            if (user.ProfileImagePublicId != null)
+                await _imageService.DeleteImageAsync(user.ProfileImagePublicId);
+
+            ImageResultDto imageResult = await _imageService.UploadImageAsync(formFile);
+            user.ProfileImageUrl = imageResult.Url;
+            user.ProfileImagePublicId = imageResult.PublicId;
+            await _userRepository.UpdateUserAsync(user);
+            return new UserResponseDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl
+            };
         }
     }
 }

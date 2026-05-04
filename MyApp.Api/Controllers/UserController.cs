@@ -47,5 +47,14 @@ namespace MyApp.Api.Controllers
 
             return Ok(result.Message);
         }
+
+        [HttpPost("UploadImageProfileAsync")]
+        [Authorize]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImageProfileAsync(IFormFile file)
+        {
+            var result = await _userService.UploadImageProfileAsync(file);
+            return Ok(result);
+        }
     }
 }

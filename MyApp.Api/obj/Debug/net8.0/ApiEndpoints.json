@@ -104,6 +104,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyApp.Api.Controllers.EventController",
+    "Method": "UploadImageAsync",
+    "RelativePath": "api/Event/UploadImageAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "FormFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
     "Method": "ApproveOrRejectParticipant",
     "RelativePath": "ApproveOrRejectParticipant",
@@ -291,6 +312,22 @@
       {
         "Name": "CancellationReason",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.UserController",
+    "Method": "UploadImageProfileAsync",
+    "RelativePath": "UploadImageProfileAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],

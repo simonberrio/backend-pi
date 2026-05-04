@@ -49,5 +49,15 @@ namespace MyApp.Api.Controllers
             EventResponseDto result = await _eventService.UpdateEventAsync(model);
             return Ok(result);
         }
+
+        [HttpPost("UploadImageAsync")]
+        [Authorize]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImageAsync(ImageDto imageDto)
+        {
+            var result = await _eventService.UploadImageAsync(imageDto.EventId, imageDto.FormFile);
+            return Ok(result);
+        }
     }
 }
+

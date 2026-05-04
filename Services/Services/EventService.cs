@@ -1,20 +1,22 @@
 ﻿using AutoMapper;
 using Dtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Repositories.IRepositories;
 using Repositories.Models;
-using Repositories.Repositories;
 using Services.IService;
 
 namespace Services.Services
 {
     public class EventService(IEventRepository eventRepository,
         IEventParticipantRepository eventParticipantRepository,
+        IImageService imageService,
         IMapper mapper,
         IUserService userService) : IEventService
     {
         private readonly IEventRepository _eventRepository = eventRepository;
         private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
+        private readonly IImageService _imageService = imageService;
         private readonly IMapper _mapper = mapper;
         private readonly IUserService _userService = userService;
 
@@ -169,6 +171,29 @@ namespace Services.Services
 
             Event response = await _eventRepository.UpdateAsync(entity);
 
+            return _mapper.Map<EventResponseDto>(response);
+        }
+
+        public async Task<EventResponseDto> UploadImageAsync(int eventId, IFormFile formFile)
+        {
+            User user = await _userService.GetUserAuthenticatedAsync();
+            Event entity = await _eventRepository.GetQueryable().Where(x => x.Id == eventId).FirstOrDefaultAsync()
+                ?? throw new Exception("Evento no encontrado");
+
+            if (entity.CreatedByUserId != user.Id)
+                throw new Exception("No tienes permisos para editar este evento");
+
+            if (entity.EndDate < DateTime.UtcNow)
+                throw new Exception("No puedes editar eventos pasados");
+
+            if (entity.ImagePublicId != null)
+                await _imageService.DeleteImageAsync(entity.ImagePublicId);
+
+            ImageResultDto imageResult = await _imageService.UploadImageAsync(formFile);
+            entity.ImageUrl = imageResult.Url;
+            entity.ImagePublicId = imageResult.PublicId;
+            entity.UpdatedDate = DateTime.UtcNow;
+            Event response = await _eventRepository.UpdateAsync(entity);
             return _mapper.Map<EventResponseDto>(response);
         }
     }

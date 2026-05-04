@@ -135,3 +135,5 @@ C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\refint\MyApp.Api.dll
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\MyApp.Api.pdb
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\MyApp.Api.genruntimeconfig.cache
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\ref\MyApp.Api.dll
+C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\bin\Debug\net8.0\CloudinaryDotNet.dll
+C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\bin\Debug\net8.0\Newtonsoft.Json.dll

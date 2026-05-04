@@ -1,10 +1,5 @@
 ﻿using Dtos;
-using Repositories.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Services.IService
 {
@@ -15,5 +10,6 @@ namespace Services.IService
         Task<List<EventResponseDto>> GetEventsAsync(EventFilterDto filter);
         Task<List<EventResponseDto>> GetEventsIAmRegistered();
         Task<EventResponseDto> UpdateEventAsync(EventDto model);
+        Task<EventResponseDto> UploadImageAsync(int eventId, IFormFile formFile);
     }
 }
