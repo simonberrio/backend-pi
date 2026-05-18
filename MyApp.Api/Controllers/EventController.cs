@@ -28,7 +28,7 @@ namespace MyApp.Api.Controllers
         }
 
         [HttpGet("GetEvents")]
-        public async Task<IActionResult> GetEvents([FromQuery] EventFilterDto filter)
+        public async Task<IActionResult> GetEvents(EventFilterDto filter)
         {
             List<EventResponseDto> result = await _eventService.GetEventsAsync(filter);
             return Ok(result);
