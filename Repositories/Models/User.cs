@@ -21,6 +21,8 @@ namespace Repositories.Models
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
 
+        // Foreign key relationships
         public ICollection<Event> Events { get; set; }
+        public ICollection<Reaction> Reactions { get; set; }
     }
 }

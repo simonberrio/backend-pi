@@ -22,6 +22,9 @@ namespace Dtos
         public string? ImageUrl { get; set; }
         public decimal? Price { get; set; }
 
+        public ReactionSummaryDto Reactions { get; set; }
+        public ReactionTypeEnums? MyReaction { get; set; }
+
         public CategoryEnums Category { get; set; }
 
         public string? CreatedByUserId { get; set; }

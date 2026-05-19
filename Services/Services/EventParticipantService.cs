@@ -1,8 +1,10 @@
 ﻿using Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Repositories.IRepositories;
 using Repositories.Models;
 using Services.IService;
+using System.Net.NetworkInformation;
 
 namespace Services.Services
 {
@@ -196,28 +198,52 @@ namespace Services.Services
             if (evento.EndDate < DateTime.UtcNow)
                 throw new Exception("El evento ya finalizó");
 
+            EventParticipant response = new();
+
             //Ya existe registro
-            EventParticipant? existing = await _eventParticipantRepository.GetQueryable()
+            EventParticipant? eventParticipant = await _eventParticipantRepository.GetQueryable()
                 .Where(x => x.UserId == user.Id && x.EventId == evento.Id).FirstOrDefaultAsync();
-
-            if (existing != null)
-                throw new Exception("Ya estás registrado en este evento");
-
-            //Validar cupos (solo aprobados)
-            int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == evento.Id && x.Status == ParticipantStatusEnums.Approved)
-                .CountAsync();
-
-            if (count >= evento.MaxParticipants)
-                throw new Exception("El evento ya está lleno");
-
-            EventParticipant response = await _eventParticipantRepository.CreateAsync(new()
+            if (eventParticipant == null)
             {
-                EventId = evento.Id,
-                UserId = user.Id,
-                RegistrationDate = DateTime.UtcNow,
-                Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending,
-                ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null
-            });
+                //Validar cupos (solo aprobados)
+                int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == evento.Id && x.Status == ParticipantStatusEnums.Approved)
+                    .CountAsync();
+
+                if (count >= evento.MaxParticipants)
+                    throw new Exception("El evento ya está lleno");
+
+                response = await _eventParticipantRepository.CreateAsync(new()
+                {
+                    EventId = evento.Id,
+                    UserId = user.Id,
+                    RegistrationDate = DateTime.UtcNow,
+                    Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending,
+                    ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null
+                });
+            }
+            else
+            {
+                if (eventParticipant.Status == ParticipantStatusEnums.Cancelled)
+                {
+                    eventParticipant.RegistrationDate = DateTime.UtcNow;
+                    eventParticipant.Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending;
+                    eventParticipant.ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null;
+
+                    response = await _eventParticipantRepository.UpdateAsync(eventParticipant);
+                }
+                else if (eventParticipant.Status == ParticipantStatusEnums.Pending)
+                {
+                    throw new ArgumentException("Tu solicitud para este evento aún está pendiente de aprobación");
+                }
+                else if (eventParticipant.Status == ParticipantStatusEnums.Approved)
+                {
+                    throw new Exception("Ya estás registrado en este evento");
+                }
+                else if (eventParticipant.Status == ParticipantStatusEnums.Rejected)
+                {
+                    throw new Exception("Tu solicitud para este evento fue rechazada");
+                }
+            }
 
             return new EventParticipantDto
             {

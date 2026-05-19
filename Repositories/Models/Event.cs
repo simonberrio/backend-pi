@@ -30,6 +30,8 @@
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+        // Foreign key relationships
         public ICollection<EventParticipant> Participants { get; set; }
+        public ICollection<Reaction> Reactions { get; set; }
     }
 }

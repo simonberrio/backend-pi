@@ -85,35 +85,39 @@ namespace Services.Services
 
         public async Task<List<EventResponseDto>> GetEventsAsync(EventFilterDto filter)
         {
-            IQueryable<Event> query = _eventRepository.GetQueryable();
+            User user = await _userService.GetUserAuthenticatedAsync();
 
-            //// Solo eventos futuros
-            //query = query.Where(e => e.EndDate >= DateTime.UtcNow);
+            IQueryable<Event> query = _eventRepository.GetQueryable();
 
             // Filtro por nombre
             if (!string.IsNullOrEmpty(filter.Search))
             {
-                query = query.Where(x => x.Name.ToLower().Contains(filter.Search.ToLower()));
+                query = query.Where(x =>
+                    x.Name.ToLower().Contains(filter.Search.ToLower()));
             }
 
-            // Filtro por categoría
+            // Filtro categoría
             if (filter.Category.HasValue)
             {
-                query = query.Where(x => x.Category == filter.Category.Value);
+                query = query.Where(x =>
+                    x.Category == filter.Category.Value);
             }
 
-            // Filtro por fecha
+            // Filtro fecha inicio
             if (filter.StartDate.HasValue)
             {
-                query = query.Where(x => x.StartDate >= filter.StartDate.Value);
+                query = query.Where(x =>
+                    x.StartDate >= filter.StartDate.Value);
             }
 
+            // Filtro fecha fin
             if (filter.EndDate.HasValue)
             {
-                query = query.Where(x => x.EndDate <= filter.EndDate.Value);
+                query = query.Where(x =>
+                    x.EndDate <= filter.EndDate.Value);
             }
 
-            // Filtro por distancia
+            // Filtro distancia
             if (filter.Latitude.HasValue && filter.Longitude.HasValue)
             {
                 var lat = filter.Latitude.Value;
@@ -121,13 +125,57 @@ namespace Services.Services
                 var radius = filter.RadiusInKm ?? 5;
 
                 query = query.Where(x =>
-                    GetDistanceKm(lat, lng, x.Latitude, x.Longitude) <= radius
-                );
+                    GetDistanceKm(lat, lng, x.Latitude, x.Longitude) <= radius);
             }
 
-            List<EventResponseDto> responseDtos = _mapper.Map<List<EventResponseDto>>(await query.Include(x => x.CreatedByUser).ToListAsync());
+            List<EventResponseDto> response = await query
+                .Select(x => new EventResponseDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Latitude = x.Latitude,
+                    Longitude = x.Longitude,
+                    Address = x.Address,
+                    MaxParticipants = x.MaxParticipants,
+                    IsPublic = x.IsPublic,
+                    Category = x.Category,
+                    Price = x.Price,
+                    ImageUrl = x.ImageUrl,
 
-            return responseDtos;
+                    CreatedByUser = new UserResponseDto
+                    {
+                        FirstName = x.CreatedByUser.FirstName,
+                        LastName = x.CreatedByUser.LastName,
+                        UserName = x.CreatedByUser.UserName,
+                        Email = x.CreatedByUser.Email,
+                        ProfileImageUrl = x.CreatedByUser.ProfileImageUrl
+                    },
+                    CreatedByUserName = x.CreatedByUser.UserName,
+
+                    Reactions = new ReactionSummaryDto
+                    {
+                        Like = x.Reactions.Count(r => r.Type == ReactionTypeEnums.Like),
+
+                        Love = x.Reactions.Count(r => r.Type == ReactionTypeEnums.Love),
+
+                        Laugh = x.Reactions.Count(r => r.Type == ReactionTypeEnums.Laugh),
+
+                        Wow = x.Reactions.Count(r => r.Type == ReactionTypeEnums.Wow),
+
+                        Sad = x.Reactions.Count(r => r.Type == ReactionTypeEnums.Sad)
+                    },
+
+                    MyReaction = x.Reactions
+                        .Where(r => r.UserId == user.Id)
+                        .Select(r => (ReactionTypeEnums?)r.Type)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return response;
         }
 
         public async Task<List<EventResponseDto>> GetEventsIAmRegistered()

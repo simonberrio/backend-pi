@@ -8,6 +8,7 @@ namespace Repositories
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<EventParticipant> EventParticipants { get; set; }
+        public DbSet<Reaction> Reactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +25,8 @@ namespace Repositories
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Event>().Property(e => e.Category).HasConversion<string>();
+
+            builder.Entity<Reaction>().HasIndex(x => new { x.EventId, x.UserId }).IsUnique();
         }
     }
 }
