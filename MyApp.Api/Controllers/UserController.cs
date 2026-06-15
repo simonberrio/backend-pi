@@ -6,6 +6,8 @@ using Services.IService;
 
 namespace MyApp.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController(IUserService userService) : ControllerBase
     {
         private readonly IUserService _userService = userService;
