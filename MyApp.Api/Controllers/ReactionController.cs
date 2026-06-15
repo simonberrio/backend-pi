@@ -8,7 +8,7 @@ using Services.Services;
 namespace MyApp.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ReactionController(IReactionService reactionService) : ControllerBase
     {
         private readonly IReactionService _reactionService = reactionService;

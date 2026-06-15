@@ -6,7 +6,7 @@ using Services.IService;
 namespace MyApp.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class EventParticipantController(IEventParticipantService service) : ControllerBase
     {
         private readonly IEventParticipantService _service = service;
