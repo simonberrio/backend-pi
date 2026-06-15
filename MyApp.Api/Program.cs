@@ -103,6 +103,21 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 //Mapeos
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:3000",
+                "https://frontend-pi.onrender.com"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+
 //Acceso para GetUserAunthenticated en UserService
 builder.Services.AddHttpContextAccessor();
 
@@ -113,6 +128,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseCors("FrontendPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
