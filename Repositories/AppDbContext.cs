@@ -9,6 +9,7 @@ namespace Repositories
         public DbSet<Event> Events { get; set; }
         public DbSet<EventParticipant> EventParticipants { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +28,14 @@ namespace Repositories
             builder.Entity<Event>().Property(e => e.Category).HasConversion<string>();
 
             builder.Entity<Reaction>().HasIndex(x => new { x.EventId, x.UserId }).IsUnique();
+
+            builder.Entity<Review>().HasIndex(x => new { x.EventId, x.UserId }).IsUnique();
+
+            builder.Entity<Review>().HasOne(x => x.Event).WithMany().HasForeignKey(x => x.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Review>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -128,7 +128,6 @@ C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\staticwebassets.build
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\staticwebassets.development.json
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\swae.build.ex.cache
-C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\MyApp.Api.csproj.Up2Date
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\MyApp.Api.dll
 C:\ProyectoIntegrador\MyApp.Api\MyApp.Api\obj\Debug\net8.0\refint\MyApp.Api.dll

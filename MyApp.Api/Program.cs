@@ -97,6 +97,8 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IReactionService, ReactionService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
