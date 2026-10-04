@@ -2,7 +2,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "Create",
-    "RelativePath": "api/Event/Create",
+    "RelativePath": "Event/Create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +18,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "Delete",
-    "RelativePath": "api/Event/Delete/{id}",
+    "RelativePath": "Event/Delete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -34,7 +34,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "GetEvents",
-    "RelativePath": "api/Event/GetEvents",
+    "RelativePath": "Event/GetEvents",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -80,7 +80,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "GetEventsIAmRegistered",
-    "RelativePath": "api/Event/GetEventsIAmRegistered",
+    "RelativePath": "Event/GetEventsIAmRegistered",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -90,7 +90,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "Update",
-    "RelativePath": "api/Event/Update",
+    "RelativePath": "Event/Update",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -106,7 +106,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.EventController",
     "Method": "UploadImageAsync",
-    "RelativePath": "api/Event/UploadImageAsync",
+    "RelativePath": "Event/UploadImageAsync",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -125,9 +125,174 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "ApproveOrRejectParticipant",
+    "RelativePath": "EventParticipant/ApproveOrRejectParticipant",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "manageParticipantDto",
+        "Type": "Dtos.ManageParticipantDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "CancelRegistrationAsync",
+    "RelativePath": "EventParticipant/CancelRegistration",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registrationDto",
+        "Type": "Dtos.RegistrationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "CheckIn",
+    "RelativePath": "EventParticipant/CheckIn",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Dtos.CheckInDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "GetMyCheckInCode",
+    "RelativePath": "EventParticipant/GetMyCheckInCode",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "GetParticipantsByEventIdAsync",
+    "RelativePath": "EventParticipant/GetParticipantsByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "GetPendingRequestsAsync",
+    "RelativePath": "EventParticipant/GetPendingRequestsAsync",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
+    "Method": "RegisterToEvent",
+    "RelativePath": "EventParticipant/RegisterToEvent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registrationDto",
+        "Type": "Dtos.RegistrationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventStaffController",
+    "Method": "AddStaff",
+    "RelativePath": "EventStaff/AddStaff",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Dtos.EventStaffDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventStaffController",
+    "Method": "GetStaffByEventId",
+    "RelativePath": "EventStaff/GetStaffByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.EventStaffController",
+    "Method": "RemoveStaff",
+    "RelativePath": "EventStaff/RemoveStaff",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyApp.Api.Controllers.ReactionController",
     "Method": "DeleteReaction",
-    "RelativePath": "api/Reaction/Delete/{eventId}",
+    "RelativePath": "Reaction/Delete/{eventId}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -143,7 +308,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.ReactionController",
     "Method": "GetReactionsByEventId",
-    "RelativePath": "api/Reaction/GetReactionsByEventId",
+    "RelativePath": "Reaction/GetReactionsByEventId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -159,7 +324,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.ReactionController",
     "Method": "ReactToEvent",
-    "RelativePath": "api/Reaction/ReactToEvent",
+    "RelativePath": "Reaction/ReactToEvent",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -178,48 +343,81 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
-    "Method": "ApproveOrRejectParticipant",
-    "RelativePath": "ApproveOrRejectParticipant",
-    "HttpMethod": "PUT",
+    "ContainingType": "MyApp.Api.Controllers.ReviewController",
+    "Method": "Create",
+    "RelativePath": "Review/Create",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "EventId",
+        "Name": "model",
+        "Type": "Dtos.ReviewDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.ReviewController",
+    "Method": "Delete",
+    "RelativePath": "Review/Delete/{eventId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.ReviewController",
+    "Method": "GetReviewsByEventId",
+    "RelativePath": "Review/GetReviewsByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "UserId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Approve",
-        "Type": "System.Boolean",
+        "Name": "eventId",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
-    "Method": "CancelRegistrationAsync",
-    "RelativePath": "CancelRegistration",
+    "ContainingType": "MyApp.Api.Controllers.ReviewController",
+    "Method": "GetReviewSummaryByEventId",
+    "RelativePath": "Review/GetReviewSummaryByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.ReviewController",
+    "Method": "Update",
+    "RelativePath": "Review/Update",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "EventId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "CancellationReason",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Dtos.ReviewDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -227,52 +425,15 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "ChangePassword",
-    "RelativePath": "ChangePassword",
+    "RelativePath": "User/ChangePassword",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "CurrentPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "NewPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
-    "Method": "GetParticipantsByEventIdAsync",
-    "RelativePath": "GetParticipantsByEventId",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "eventId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
-    "Method": "GetPendingRequestsAsync",
-    "RelativePath": "GetPendingRequestsAsync",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "eventId",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Dtos.ChangePasswordDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -280,7 +441,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "GetUserAuthenticated",
-    "RelativePath": "GetUserAuthenticated",
+    "RelativePath": "User/GetUserAuthenticated",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -290,20 +451,15 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "Login",
-    "RelativePath": "Login",
+    "RelativePath": "User/Login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Password",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Dtos.LoginDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -311,59 +467,29 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "Register",
-    "RelativePath": "Register",
+    "RelativePath": "User/Register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "FirstName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "LastName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "UserName",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Password",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ConfirmPassword",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "model",
+        "Type": "Dtos.RegisterDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "MyApp.Api.Controllers.EventParticipantController",
-    "Method": "RegisterToEvent",
-    "RelativePath": "RegisterToEvent",
-    "HttpMethod": "POST",
+    "ContainingType": "MyApp.Api.Controllers.UserController",
+    "Method": "SearchByUserName",
+    "RelativePath": "User/SearchByUserName",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "EventId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "CancellationReason",
+        "Name": "userName",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -373,7 +499,7 @@
   {
     "ContainingType": "MyApp.Api.Controllers.UserController",
     "Method": "UploadImageProfileAsync",
-    "RelativePath": "UploadImageProfileAsync",
+    "RelativePath": "User/UploadImageProfileAsync",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

@@ -139,6 +139,20 @@ namespace Services.Services
             return (true, "Usuario registrado correctamente");
         }
 
+        public async Task<UserSearchDto> SearchByUserNameAsync(string userName)
+        {
+            User user = await _userRepository.GetByUserNameAsync(userName) ??
+                throw new Exception("No se encontró un usuario con ese nombre de usuario.");
+
+            return new UserSearchDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                ProfileImageUrl = user.ProfileImageUrl
+            };
+        }
+
         public async Task<UserResponseDto> UploadImageProfileAsync(IFormFile formFile)
         {
             User user = await GetUserAuthenticatedAsync();

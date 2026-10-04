@@ -10,10 +10,12 @@ namespace Services.Services
 {
     public class EventParticipantService(IEventRepository eventRepository,
         IEventParticipantRepository eventParticipantRepository,
+        IEventStaffRepository eventStaffRepository,
         IUserService userService) : IEventParticipantService
     {
         private readonly IEventRepository _eventRepository = eventRepository;
         private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
+        private readonly IEventStaffRepository _eventStaffRepository = eventStaffRepository;
         private readonly IUserService _userService = userService;
 
         public async Task<EventParticipantDto> ApproveOrRejectParticipant(ManageParticipantDto model)
@@ -47,6 +49,7 @@ namespace Services.Services
 
                 participant.Status = ParticipantStatusEnums.Approved;
                 participant.ConfirmationDate = DateTime.UtcNow;
+                participant.CheckInCode ??= Guid.NewGuid();
             }
             else
             {
@@ -86,6 +89,9 @@ namespace Services.Services
             EventParticipant entity = await _eventParticipantRepository.GetQueryable().Where(x => x.UserId == user.Id &&
                 x.EventId == registrationDto.EventId).FirstOrDefaultAsync()
                 ?? throw new Exception("No estás registrado en este evento");
+
+            if (entity.CheckedInDate != null)
+                throw new Exception("No puedes cancelar tu inscripción porque ya hiciste check-in en este evento.");
 
             entity.Status = ParticipantStatusEnums.Cancelled;
             entity.CancellationReason = registrationDto.CancellationReason;
@@ -218,7 +224,8 @@ namespace Services.Services
                     UserId = user.Id,
                     RegistrationDate = DateTime.UtcNow,
                     Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending,
-                    ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null
+                    ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null,
+                    CheckInCode = evento.IsPublic ? Guid.NewGuid() : null
                 });
             }
             else
@@ -228,6 +235,9 @@ namespace Services.Services
                     eventParticipant.RegistrationDate = DateTime.UtcNow;
                     eventParticipant.Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending;
                     eventParticipant.ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null;
+
+                    if (evento.IsPublic)
+                        eventParticipant.CheckInCode ??= Guid.NewGuid();
 
                     response = await _eventParticipantRepository.UpdateAsync(eventParticipant);
                 }
@@ -245,6 +255,79 @@ namespace Services.Services
                 }
             }
 
+            return new EventParticipantDto
+            {
+                Id = response.Id,
+                UserId = response.UserId,
+                UserName = response.User.UserName,
+                UserFirstName = response.User.FirstName,
+                UserLastName = response.User.LastName,
+                EventId = response.EventId,
+                Event = new EventResponseDto
+                {
+                    Id = response.Event.Id,
+                    Name = response.Event.Name,
+                    Description = response.Event.Description,
+                    StartDate = response.Event.StartDate,
+                    EndDate = response.Event.EndDate,
+                    MaxParticipants = response.Event.MaxParticipants,
+                    IsPublic = response.Event.IsPublic
+                },
+                RegistrationDate = response.RegistrationDate,
+                Status = response.Status,
+                ConfirmationDate = response.ConfirmationDate,
+                CancellationReason = response.CancellationReason
+            };
+        }
+
+        public async Task<CheckInCodeResponseDto> GetMyCheckInCodeAsync(int eventId)
+        {
+            User user = await _userService.GetUserAuthenticatedAsync();
+
+            EventParticipant participant = await _eventParticipantRepository.GetQueryable()
+                .Where(x => x.EventId == eventId && x.UserId == user.Id).FirstOrDefaultAsync()
+                ?? throw new Exception("No estás inscrito en este evento.");
+
+            if (participant.Status != ParticipantStatusEnums.Approved)
+                throw new Exception("Tu inscripción a este evento aún no está aprobada.");
+
+            if (participant.CheckInCode == null)
+                throw new Exception("Aún no se ha generado tu código de check-in.");
+
+            return new CheckInCodeResponseDto
+            {
+                EventId = eventId,
+                CheckInCode = participant.CheckInCode.Value
+            };
+        }
+
+        public async Task<EventParticipantDto> CheckInAsync(CheckInDto model)
+        {
+            User currentUser = await _userService.GetUserAuthenticatedAsync();
+
+            EventParticipant participant = await _eventParticipantRepository.GetQueryable()
+                .Include(x => x.Event)
+                .Include(x => x.User)
+                .Where(x => x.CheckInCode == model.CheckInCode)
+                .FirstOrDefaultAsync()
+                ?? throw new Exception("Código de check-in inválido.");
+
+            bool isOrganizer = participant.Event.CreatedByUserId == currentUser.Id;
+            bool isStaff = await _eventStaffRepository.GetQueryable()
+                .AnyAsync(x => x.EventId == participant.EventId && x.UserId == currentUser.Id);
+
+            if (!isOrganizer && !isStaff)
+                throw new Exception("No tienes permisos para hacer check-in en este evento.");
+
+            if (participant.Status != ParticipantStatusEnums.Approved)
+                throw new Exception("Esta inscripción no está aprobada.");
+
+            if (participant.CheckedInDate != null)
+                throw new Exception("Ya se registró la asistencia para esta inscripción.");
+
+            participant.CheckedInDate = DateTime.UtcNow;
+
+            EventParticipant response = await _eventParticipantRepository.UpdateAsync(participant);
             return new EventParticipantDto
             {
                 Id = response.Id,

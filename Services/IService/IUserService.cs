@@ -10,6 +10,7 @@ namespace Services.IService
         Task<User> GetUserAuthenticatedAsync();
         Task<string?> LoginAsync(string email, string password);
         Task<(bool Success, string Message)> RegisterAsync(RegisterDto model);
+        Task<UserSearchDto> SearchByUserNameAsync(string userName);
         Task<UserResponseDto> UploadImageProfileAsync(IFormFile formFile);
     }
 }

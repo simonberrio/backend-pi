@@ -10,6 +10,7 @@ namespace Repositories
         public DbSet<EventParticipant> EventParticipants { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<EventStaff> EventStaff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -21,6 +22,8 @@ namespace Repositories
             builder.Entity<EventParticipant>().HasIndex(ep => new { ep.UserId, ep.EventId }).IsUnique();
 
             builder.Entity<EventParticipant>().Property(ep => ep.Status).HasConversion<string>();
+
+            builder.Entity<EventParticipant>().HasIndex(ep => ep.CheckInCode).IsUnique();
 
             builder.Entity<Event>().HasOne(e => e.CreatedByUser).WithMany(e => e.Events).HasForeignKey(e => e.CreatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -35,6 +38,14 @@ namespace Repositories
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Review>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<EventStaff>().HasIndex(x => new { x.EventId, x.UserId }).IsUnique();
+
+            builder.Entity<EventStaff>().HasOne(x => x.Event).WithMany().HasForeignKey(x => x.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<EventStaff>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

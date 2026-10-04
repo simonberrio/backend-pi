@@ -6,6 +6,8 @@ namespace Services.IService
     {
         Task<EventParticipantDto> ApproveOrRejectParticipant(ManageParticipantDto model);
         Task<EventParticipantDto> CancelRegistrationAsync(RegistrationDto cancelRegistrationDto);
+        Task<EventParticipantDto> CheckInAsync(CheckInDto model);
+        Task<CheckInCodeResponseDto> GetMyCheckInCodeAsync(int eventId);
         Task<List<EventParticipantDto>> GetParticipantsByEventIdAsync(int eventId);
         Task<List<EventParticipantDto>> GetPendingRequestsAsync(int eventId);
         Task<EventParticipantDto> RegisterToEventAsync(RegistrationDto registrationDto);

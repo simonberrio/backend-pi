@@ -50,6 +50,14 @@ namespace MyApp.Api.Controllers
             return Ok(result.Message);
         }
 
+        [HttpGet("SearchByUserName")]
+        [Authorize]
+        public async Task<IActionResult> SearchByUserName([FromQuery] string userName)
+        {
+            var result = await _userService.SearchByUserNameAsync(userName);
+            return Ok(result);
+        }
+
         [HttpPost("UploadImageProfileAsync")]
         [Authorize]
         [Consumes("multipart/form-data")]

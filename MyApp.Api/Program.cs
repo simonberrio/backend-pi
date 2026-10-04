@@ -94,6 +94,8 @@ builder.Services.AddScoped<IEventParticipantRepository, EventParticipantReposito
 builder.Services.AddScoped<IEventParticipantService, EventParticipantService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IEventStaffRepository, EventStaffRepository>();
+builder.Services.AddScoped<IEventStaffService, EventStaffService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IReactionService, ReactionService>();

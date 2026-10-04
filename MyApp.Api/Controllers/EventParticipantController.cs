@@ -27,6 +27,22 @@ namespace MyApp.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPost("CheckIn")]
+        [Authorize]
+        public async Task<IActionResult> CheckIn(CheckInDto model)
+        {
+            EventParticipantDto result = await _service.CheckInAsync(model);
+            return Ok(result);
+        }
+
+        [HttpGet("GetMyCheckInCode")]
+        [Authorize]
+        public async Task<IActionResult> GetMyCheckInCode([FromQuery] int eventId)
+        {
+            var result = await _service.GetMyCheckInCodeAsync(eventId);
+            return Ok(result);
+        }
+
         [HttpGet("GetParticipantsByEventId")]
         [Authorize]
         public async Task<IActionResult> GetParticipantsByEventIdAsync([FromQuery] int eventId)

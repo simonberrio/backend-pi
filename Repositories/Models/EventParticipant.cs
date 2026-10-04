@@ -17,5 +17,8 @@
         public DateTime? ConfirmationDate { get; set; }
 
         public string? CancellationReason { get; set; }
+
+        public Guid? CheckInCode { get; set; }
+        public DateTime? CheckedInDate { get; set; }
     }
 }

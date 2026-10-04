@@ -23,6 +23,11 @@ namespace Repositories.Repositories
             return await _userManager.FindByEmailAsync(email);
         }
 
+        public async Task<User?> GetByUserNameAsync(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
+        }
+
         public async Task<User> UpdateUserAsync(User user)
         {
             await _userManager.UpdateAsync(user);
