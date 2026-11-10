@@ -8,6 +8,7 @@ using Repositories;
 using Repositories.IRepositories;
 using Repositories.Models;
 using Repositories.Repositories;
+using Services.Helpers;
 using Services.IService;
 using Services.Services;
 using System.Text;
@@ -103,6 +104,10 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IOrganizerPaymentSettingsRepository, OrganizerPaymentSettingsRepository>();
+builder.Services.AddHttpClient<IPaymentService, PaymentService>();
+builder.Services.AddSingleton<ISecretProtector, SecretProtector>();
 
 //Mapeos
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));

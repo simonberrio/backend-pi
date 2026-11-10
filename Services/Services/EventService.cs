@@ -12,8 +12,12 @@ namespace Services.Services
         IEventParticipantRepository eventParticipantRepository,
         IImageService imageService,
         IMapper mapper,
-        IUserService userService) : IEventService
+        IUserService userService,
+        IPaymentRepository paymentRepository,
+        IOrganizerPaymentSettingsRepository settingsRepository) : IEventService
     {
+        private readonly IPaymentRepository _paymentRepository = paymentRepository;
+        private readonly IOrganizerPaymentSettingsRepository _settingsRepository = settingsRepository;
         private readonly IEventRepository _eventRepository = eventRepository;
         private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
         private readonly IImageService _imageService = imageService;
@@ -31,6 +35,8 @@ namespace Services.Services
             if (model.MaxParticipants <= 0)
                 throw new Exception("El cupo debe ser mayor a 0");
 
+            await ValidatePriceAsync(model.Price, user.Id);
+
             Event entity = _mapper.Map<Event>(model);
 
             entity.CreatedByUserId = user.Id;
@@ -42,6 +48,16 @@ namespace Services.Services
             EventResponseDto response = _mapper.Map<EventResponseDto>(createdEvent);
 
             return response;
+        }
+
+        private async Task ValidatePriceAsync(decimal? price, string userId)
+        {
+            if (price.HasValue && price.Value < 0)
+                throw new Exception("El precio no puede ser negativo");
+
+            if (price.HasValue && price.Value > 0 &&
+                !await _settingsRepository.GetQueryable().AnyAsync(x => x.UserId == userId))
+                throw new Exception("Debes configurar tu cuenta de Wompi antes de crear eventos con precio");
         }
 
         private double DegreesToRadians(double deg)
@@ -59,6 +75,10 @@ namespace Services.Services
             // Validar dueño
             if (entity.CreatedByUserId != user.Id)
                 throw new Exception("No tienes permisos para eliminar este evento");
+
+            // No perder el registro de dinero recibido
+            if (await _paymentRepository.GetQueryable().AnyAsync(x => x.EventId == id && x.Status == PaymentStatusEnums.Approved))
+                throw new Exception("No puedes eliminar un evento que ya tiene pagos aprobados");
 
             Event response = await _eventRepository.DeleteAsync(entity);
             return _mapper.Map<EventResponseDto>(response);
@@ -209,6 +229,8 @@ namespace Services.Services
 
             if (model.MaxParticipants <= 0)
                 throw new Exception("Cupo inválido");
+
+            await ValidatePriceAsync(model.Price, user.Id);
 
             // Mapear (sin perder campos importantes)
             _mapper.Map(model, entity);

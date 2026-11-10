@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Repositories.IRepositories;
 using Repositories.Models;
+using Services.Helpers;
 using Services.IService;
 using System.Net.NetworkInformation;
 
@@ -11,8 +12,10 @@ namespace Services.Services
     public class EventParticipantService(IEventRepository eventRepository,
         IEventParticipantRepository eventParticipantRepository,
         IEventStaffRepository eventStaffRepository,
+        IPaymentRepository paymentRepository,
         IUserService userService) : IEventParticipantService
     {
+        private readonly IPaymentRepository _paymentRepository = paymentRepository;
         private readonly IEventRepository _eventRepository = eventRepository;
         private readonly IEventParticipantRepository _eventParticipantRepository = eventParticipantRepository;
         private readonly IEventStaffRepository _eventStaffRepository = eventStaffRepository;
@@ -40,16 +43,15 @@ namespace Services.Services
 
             if (model.Approve)
             {
-                //Validar cupos
-                int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == participant.EventId &&
-                    x.Status == ParticipantStatusEnums.Approved).CountAsync();
+                //Validar cupos (aprobados + reservas de pago vigentes)
+                int count = await _eventParticipantRepository.GetQueryable()
+                    .CountOccupiedSpotsAsync(participant.EventId, participant.Id);
 
                 if (count >= participant.Event.MaxParticipants)
                     throw new Exception("El evento ya está lleno");
 
-                participant.Status = ParticipantStatusEnums.Approved;
-                participant.ConfirmationDate = DateTime.UtcNow;
-                participant.CheckInCode ??= Guid.NewGuid();
+                //Si el evento tiene precio, queda aprobado pero pendiente de pago
+                await SetAdmittedStatusAsync(participant, participant.Event);
             }
             else
             {
@@ -211,35 +213,55 @@ namespace Services.Services
                 .Where(x => x.UserId == user.Id && x.EventId == evento.Id).FirstOrDefaultAsync();
             if (eventParticipant == null)
             {
-                //Validar cupos (solo aprobados)
-                int count = await _eventParticipantRepository.GetQueryable().Where(x => x.EventId == evento.Id && x.Status == ParticipantStatusEnums.Approved)
-                    .CountAsync();
+                //Validar cupos (aprobados + reservas de pago vigentes)
+                int count = await _eventParticipantRepository.GetQueryable().CountOccupiedSpotsAsync(evento.Id);
 
                 if (count >= evento.MaxParticipants)
                     throw new Exception("El evento ya está lleno");
 
-                response = await _eventParticipantRepository.CreateAsync(new()
+                EventParticipant newParticipant = new()
                 {
                     EventId = evento.Id,
                     UserId = user.Id,
                     RegistrationDate = DateTime.UtcNow,
-                    Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending,
-                    ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null,
-                    CheckInCode = evento.IsPublic ? Guid.NewGuid() : null
-                });
+                    Status = ParticipantStatusEnums.Pending
+                };
+
+                //Público: entra directo (o queda pendiente de pago). Privado: espera aprobación.
+                if (evento.IsPublic)
+                    await SetAdmittedStatusAsync(newParticipant, evento);
+
+                response = await _eventParticipantRepository.CreateAsync(newParticipant);
             }
             else
             {
                 if (eventParticipant.Status == ParticipantStatusEnums.Cancelled)
                 {
+                    if (evento.IsPublic)
+                    {
+                        int count = await _eventParticipantRepository.GetQueryable()
+                            .CountOccupiedSpotsAsync(evento.Id, eventParticipant.Id);
+
+                        if (count >= evento.MaxParticipants)
+                            throw new Exception("El evento ya está lleno");
+                    }
+
                     eventParticipant.RegistrationDate = DateTime.UtcNow;
-                    eventParticipant.Status = evento.IsPublic ? ParticipantStatusEnums.Approved : ParticipantStatusEnums.Pending;
-                    eventParticipant.ConfirmationDate = evento.IsPublic ? DateTime.UtcNow : null;
+                    eventParticipant.CancellationReason = null;
+                    eventParticipant.Status = ParticipantStatusEnums.Pending;
+                    eventParticipant.ConfirmationDate = null;
 
                     if (evento.IsPublic)
-                        eventParticipant.CheckInCode ??= Guid.NewGuid();
+                        await SetAdmittedStatusAsync(eventParticipant, evento);
 
                     response = await _eventParticipantRepository.UpdateAsync(eventParticipant);
+                }
+                else if (eventParticipant.Status == ParticipantStatusEnums.AwaitingPayment)
+                {
+                    //Ya inscrito, solo le falta pagar: se devuelve la inscripción para que el front abra el checkout
+                    response = await _eventParticipantRepository.GetQueryable()
+                        .Include(x => x.User).Include(x => x.Event)
+                        .FirstAsync(x => x.Id == eventParticipant.Id);
                 }
                 else if (eventParticipant.Status == ParticipantStatusEnums.Pending)
                 {
@@ -288,6 +310,9 @@ namespace Services.Services
                 .Where(x => x.EventId == eventId && x.UserId == user.Id).FirstOrDefaultAsync()
                 ?? throw new Exception("No estás inscrito en este evento.");
 
+            if (participant.Status == ParticipantStatusEnums.AwaitingPayment)
+                throw new Exception("Debes completar el pago para obtener tu código de check-in.");
+
             if (participant.Status != ParticipantStatusEnums.Approved)
                 throw new Exception("Tu inscripción a este evento aún no está aprobada.");
 
@@ -299,6 +324,25 @@ namespace Services.Services
                 EventId = eventId,
                 CheckInCode = participant.CheckInCode.Value
             };
+        }
+
+        // Deja la inscripción admitida: Approved si es gratis (o si ya tiene un pago aprobado previo),
+        // AwaitingPayment si el evento tiene precio y aún no ha pagado.
+        private async Task SetAdmittedStatusAsync(EventParticipant participant, Event evento)
+        {
+            bool alreadyPaid = participant.Id != 0 && await _paymentRepository.GetQueryable()
+                .AnyAsync(x => x.EventParticipantId == participant.Id && x.Status == PaymentStatusEnums.Approved);
+
+            if (evento.RequiresPayment() && !alreadyPaid)
+            {
+                participant.Status = ParticipantStatusEnums.AwaitingPayment;
+                participant.ConfirmationDate = null;
+                return;
+            }
+
+            participant.Status = ParticipantStatusEnums.Approved;
+            participant.ConfirmationDate = DateTime.UtcNow;
+            participant.CheckInCode ??= Guid.NewGuid();
         }
 
         public async Task<EventParticipantDto> CheckInAsync(CheckInDto model)

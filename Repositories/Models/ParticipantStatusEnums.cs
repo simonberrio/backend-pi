@@ -11,6 +11,7 @@ namespace Repositories.Models
         Pending,
         Approved,
         Rejected,
-        Cancelled
+        Cancelled,
+        AwaitingPayment // Inscrito/aprobado en un evento con precio, pendiente de pagar
     }
 }

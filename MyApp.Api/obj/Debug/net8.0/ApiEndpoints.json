@@ -290,6 +290,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MyApp.Api.Controllers.PaymentController",
+    "Method": "Checkout",
+    "RelativePath": "Payment/Checkout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.PaymentController",
+    "Method": "GetMyPaymentSettings",
+    "RelativePath": "Payment/GetMyPaymentSettings",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.PaymentController",
+    "Method": "GetPaymentsByEventId",
+    "RelativePath": "Payment/GetPaymentsByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.PaymentController",
+    "Method": "GetPaymentStatus",
+    "RelativePath": "Payment/GetPaymentStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reference",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "transactionId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.PaymentController",
+    "Method": "SavePaymentSettings",
+    "RelativePath": "Payment/SavePaymentSettings",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "Dtos.PaymentSettingsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MyApp.Api.Controllers.ReactionController",
     "Method": "DeleteReaction",
     "RelativePath": "Reaction/Delete/{eventId}",
@@ -510,6 +589,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Api.Controllers.WebhookController",
+    "Method": "Wompi",
+    "RelativePath": "Webhook/Wompi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

@@ -20,5 +20,8 @@
 
         public Guid? CheckInCode { get; set; }
         public DateTime? CheckedInDate { get; set; }
+
+        // Foreign key relationships
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }
 }

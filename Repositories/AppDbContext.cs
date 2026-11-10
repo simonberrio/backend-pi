@@ -11,6 +11,8 @@ namespace Repositories
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<EventStaff> EventStaff { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<OrganizerPaymentSettings> OrganizerPaymentSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +48,24 @@ namespace Repositories
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<EventStaff>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Payment>().HasIndex(x => x.Reference).IsUnique();
+
+            builder.Entity<Payment>().Property(x => x.Status).HasConversion<string>();
+
+            builder.Entity<Payment>().HasOne(x => x.EventParticipant).WithMany(x => x.Payments).HasForeignKey(x => x.EventParticipantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Payment>().HasOne(x => x.Event).WithMany().HasForeignKey(x => x.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Payment>().HasOne<User>().WithMany().HasForeignKey(x => x.OrganizerUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<OrganizerPaymentSettings>().HasIndex(x => x.UserId).IsUnique();
+
+            builder.Entity<OrganizerPaymentSettings>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -222,7 +222,7 @@ namespace MyApp.Api.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("Repositories.Models.EventParticipant", b =>
@@ -269,7 +269,7 @@ namespace MyApp.Api.Migrations
                     b.HasIndex("UserId", "EventId")
                         .IsUnique();
 
-                    b.ToTable("EventParticipants");
+                    b.ToTable("EventParticipants", (string)null);
                 });
 
             modelBuilder.Entity("Repositories.Models.EventStaff", b =>
@@ -297,7 +297,110 @@ namespace MyApp.Api.Migrations
                     b.HasIndex("EventId", "UserId")
                         .IsUnique();
 
-                    b.ToTable("EventStaff");
+                    b.ToTable("EventStaff", (string)null);
+                });
+
+            modelBuilder.Entity("Repositories.Models.OrganizerPaymentSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventsSecretEncrypted")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IntegritySecretEncrypted")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PublicKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("OrganizerPaymentSettings", (string)null);
+                });
+
+            modelBuilder.Entity("Repositories.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("AmountInCents")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EventParticipantId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastWompiPayload")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrganizerUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentMethodType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("WompiTransactionId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("EventParticipantId");
+
+                    b.HasIndex("OrganizerUserId");
+
+                    b.HasIndex("Reference")
+                        .IsUnique();
+
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Repositories.Models.Reaction", b =>
@@ -328,7 +431,7 @@ namespace MyApp.Api.Migrations
                     b.HasIndex("EventId", "UserId")
                         .IsUnique();
 
-                    b.ToTable("Reactions");
+                    b.ToTable("Reactions", (string)null);
                 });
 
             modelBuilder.Entity("Repositories.Models.Review", b =>
@@ -369,7 +472,7 @@ namespace MyApp.Api.Migrations
                     b.HasIndex("EventId", "UserId")
                         .IsUnique();
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Repositories.Models.User", b =>
@@ -557,6 +660,42 @@ namespace MyApp.Api.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Repositories.Models.OrganizerPaymentSettings", b =>
+                {
+                    b.HasOne("Repositories.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Repositories.Models.Payment", b =>
+                {
+                    b.HasOne("Repositories.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repositories.Models.EventParticipant", "EventParticipant")
+                        .WithMany("Payments")
+                        .HasForeignKey("EventParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Repositories.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("OrganizerUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("EventParticipant");
+                });
+
             modelBuilder.Entity("Repositories.Models.Reaction", b =>
                 {
                     b.HasOne("Repositories.Models.Event", "Event")
@@ -600,6 +739,11 @@ namespace MyApp.Api.Migrations
                     b.Navigation("Participants");
 
                     b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("Repositories.Models.EventParticipant", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("Repositories.Models.User", b =>
